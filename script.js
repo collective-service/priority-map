@@ -76,10 +76,10 @@ const isMobile = $(window).width() < 767 ? true : false;
 const viewportWidth = window.innerWidth;
 let currentZoom = 1;
 
-const mapFillColor = '#001e3f', //00acee F9F871 294780 6077B5 001e3f
+const mapFillColor = '#546B89', //00acee F9F871 294780 6077B5 001e3f A6B0C3
     mapInactive = '#001e3f',
-    mapActive = '#D90368',
-    hoverColor = '#D90368';
+    mapActive = '#A6B0C3',
+    hoverColor = '#546B89';
 
 let g, mapsvg, projection, width, height, zoom, path, maptip;
 let countriesISO3Arr = [];
@@ -111,7 +111,7 @@ function initiateMap() {
         .attr("width", "100%")
         .attr("height", "100%")
         // .attr("fill", "#d9d9d9");
-        .attr("fill", "#1b365e"); //294780 //1b365e //cdd4d9
+        .attr("fill", "#FFF"); //#1b365e //294780 //1b365e //cdd4d9
     // .attr("fill-opacity", "0.5");
 
     d3.select('#title').style('right', width / 2 + 'px');
@@ -161,29 +161,31 @@ function initiateMap() {
 
     // });
 
-    const circlesR = (isMobile) ? 2 : 4;
-    const circles = g.append("g")
-        .attr("class", "cercles")
-        .selectAll(".cercle")
-        .data(prioritiesData)
-        .enter()
-        .append("g")
-        .append("circle")
-        .attr("class", "cercle")
-        .attr("r", function(d) {
-            const numIntervention = splitMultiValues(d["Intervention type"]).length;
-            return circlesR * numIntervention;
-        })
-        .attr("transform", function(d) {
-            return "translate(" + [d.x, d.y] + ")";
-        })
-        .attr("fill", function(d) { return getColor(d["Intervention type"]); })
-        .on("mousemove", function(d) {
-            mousemove(d);
-        })
-        .on("mouseout", function() {
-            maptip.classed('hidden', true);
-        });
+  //  const circlesR = (isMobile) ? 2 : 4;
+  //  const circles = g.append("g")
+  //          .attr("class", "cercles")
+  //          .selectAll(".cercle")
+  //          .data(prioritiesData)
+  //          .enter()
+  //          .append("g")
+  //          .append("circle")
+  //          .attr("class", "cercle")
+  //          .attr("r", 5)
+        //.attr("r", function(d) {
+        //    const numIntervention = splitMultiValues(d["Intervention type"]).length;
+        //    return circlesR * numIntervention;
+        //})
+  //          .attr("transform", function(d) {
+  //              return "translate(" + [d.x, d.y] + ")";
+  //          })
+  //          .attr("fill", function(d) { return getColor(d["Intervention type"]); })
+  //          .on("mousemove", function(d) {
+  //              mousemove(d);
+  //          })
+  //          .on("mouseout", function() {
+  //              maptip.classed('hidden', true);
+  //          });
+
     // .on("click", function(d) {
     //     generateEmergencyInfo(d);
     //     g.selectAll("circle").attr('r', circlesR);
@@ -260,13 +262,13 @@ function mousemove(d) {
         interventions = splitMultiValues(d["Intervention type"]);
         agencies = splitMultiValues(d["Agencies"]);
     }
-
+    html += '<h6>' + countryName + '</h6>';
+    html += '<div class="subtitle">Priorities</div>';
     for (let index = 0; index < interventions.length; index++) {
         const intervention = interventions[index];
         html += '<button type="button" class="btn tag-intervention">' + intervention + '</button>';
     }
-    html += '<h6>' + countryName + '</h6>';
-
+    html += '<div class="subtitle">Agencies</div>';
     for (let index = 0; index < agencies.length; index++) {
         const agency = agencies[index];
         html += '<button type="button" class="btn tag-agency">' + agency + '</button>';
