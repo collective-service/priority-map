@@ -164,8 +164,10 @@ function initiateMap() {
 
             maptip.classed('hidden', true);
         });
-
     choroplethMap();
+
+
+
 
     mapsvg.transition()
         .duration(750)
@@ -291,18 +293,18 @@ function choroplethMap(mapData = prioritiesData) {
         })
     }
     // console.log(data);
-    var countriesArr = [];
+    countriesISO3Arr = [];
     mapData.forEach(element => {
-        countriesArr.includes(element.ISO3) ? null : countriesArr.push(element.ISO3);
+        countriesISO3Arr.includes(element.ISO3) ? null : countriesISO3Arr.push(element.ISO3);
     });
 
     mapsvg.selectAll('path').each(function(element, index) {
         d3.select(this).attr('class', function(d) {
-            var className = (countriesArr.includes(d.properties.ISO_A3)) ? 'priority' : 'inactive';
+            var className = (countriesISO3Arr.includes(d.properties.ISO_A3)) ? 'priority' : 'inactive';
             return className;
         });
         d3.select(this).transition().duration(500).attr('fill', function(d) {
-            return countriesArr.includes(d.properties.ISO_A3) ? mapFillColor : mapInactive;
+            return countriesISO3Arr.includes(d.properties.ISO_A3) ? mapFillColor : mapInactive;
         });
     });
 
