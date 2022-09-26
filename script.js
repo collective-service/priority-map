@@ -35,7 +35,7 @@ $(document).ready(function() {
             $('.loader').hide();
             $('#mainOfIframe').css('opacity', 1);
 
-
+            generateSelect(legendEntries);
             initiateMap();
         }); // then
     } // getData
@@ -71,6 +71,17 @@ function updateLatLon(iso3, x, y) {
 
 }
 
+function generateSelect(data) {
+    $('#emergency').html('');
+    var options = "";
+    data.unshift('All');
+    for (let i = 0; i < data.length; i++) {
+        const element = data[i];
+        i == 0 ? options += '<option value="all" selected>' + element + '</option>' :
+            options += '<option value="' + element + '">' + element + '</option>';
+    }
+    $('#emergency').append(options);
+}
 const isMobile = $(window).width() < 767 ? true : false;
 
 const viewportWidth = window.innerWidth;
@@ -133,17 +144,17 @@ function initiateMap() {
         })
         .attr('class', function(d) {
             var className = (countriesISO3Arr.includes(d.properties.ISO_A3)) ? 'priority' : 'inactive';
-            if (className == 'priority') {
-                var centroid = path.centroid(d),
-                    x = centroid[0],
-                    y = centroid[1];
-                updateLatLon(d.properties.ISO_A3, x, y);
-            }
+            // if (className == 'priority') {
+            //     var centroid = path.centroid(d),
+            //         x = centroid[0],
+            //         y = centroid[1];
+            //     updateLatLon(d.properties.ISO_A3, x, y);
+            // }
             return className;
         })
-        .attr('fill', function(d) {
-            return countriesISO3Arr.includes(d.properties.ISO_A3) ? mapFillColor : mapInactive;
-        })
+        // .attr('fill', function(d) {
+        //     return countriesISO3Arr.includes(d.properties.ISO_A3) ? mapFillColor : mapInactive;
+        // })
         .attr('stroke-width', 0.05)
         .attr('stroke', '#fff')
         .on("mousemove", function(d) {
@@ -153,44 +164,8 @@ function initiateMap() {
 
             maptip.classed('hidden', true);
         });
-    // .on("click", function(d) {
-    //     if (countriesISO3Arr.includes(d.properties.ISO_A3)) {
-    //         const countryInfo = prioritiesData.filter((c) => { return c.iso3 == d.properties.ISO_A3 })[0];
-    //         generateEmergencyInfo(countryInfo);
-    //     }
 
-    // });
-
-  //  const circlesR = (isMobile) ? 2 : 4;
-  //  const circles = g.append("g")
-  //          .attr("class", "cercles")
-  //          .selectAll(".cercle")
-  //          .data(prioritiesData)
-  //          .enter()
-  //          .append("g")
-  //          .append("circle")
-  //          .attr("class", "cercle")
-  //          .attr("r", 5)
-        //.attr("r", function(d) {
-        //    const numIntervention = splitMultiValues(d["Intervention type"]).length;
-        //    return circlesR * numIntervention;
-        //})
-  //          .attr("transform", function(d) {
-  //              return "translate(" + [d.x, d.y] + ")";
-  //          })
-  //          .attr("fill", function(d) { return getColor(d["Intervention type"]); })
-  //          .on("mousemove", function(d) {
-  //              mousemove(d);
-  //          })
-  //          .on("mouseout", function() {
-  //              maptip.classed('hidden', true);
-  //          });
-
-    // .on("click", function(d) {
-    //     generateEmergencyInfo(d);
-    //     g.selectAll("circle").attr('r', circlesR);
-    //     $(this).attr('r', circlesR * 2);
-    // });
+    choroplethMap();
 
     mapsvg.transition()
         .duration(750)
@@ -204,43 +179,43 @@ function initiateMap() {
         zoom.scaleBy(mapsvg.transition().duration(500), 0.5);
     });
 
-    var legendSVG = d3.select('#legend').append("svg")
-        .attr("widht", "100%")
-        .attr("height", "100%");
+    // var legendSVG = d3.select('#legend').append("svg")
+    //     .attr("widht", "100%")
+    //     .attr("height", "100%");
 
-    d3.select('#worldwide').style("bottom", height / 2 + "px");
+    // d3.select('#worldwide').style("bottom", height / 2 + "px");
 
-    var worldwideSVG = d3.select('#worldwide').append("svg")
-        .attr("widht", "100%")
-        .attr("height", "100%");
+    // var worldwideSVG = d3.select('#worldwide').append("svg")
+    //     .attr("widht", "100%")
+    //     .attr("height", "100%");
 
-    const xcoord = 10;
-    legendSVG.append("g")
-        .selectAll("legend-item")
-        .data(legendEntries)
-        .enter()
-        .append("circle").attr("r", 6)
-        .attr("cx", xcoord)
-        .attr("cy", function(d, i) {
-            if (i == 0) {
-                return xcoord;
-            }
-            return xcoord + i * 25;
-        })
-        .attr("fill", function(legend) { return getColor(legend); });
-    legendSVG
-        .select("g")
-        .selectAll("text")
-        .data(legendEntries).enter()
-        .append("text")
-        .attr("x", xcoord * 2)
-        .attr("y", function(d, i) {
-            if (i == 0) {
-                return xcoord + 5;
-            }
-            return xcoord + 5 + i * 25;
-        })
-        .text(function(d) { return d; });
+    // const xcoord = 10;
+    // legendSVG.append("g")
+    //     .selectAll("legend-item")
+    //     .data(legendEntries)
+    //     .enter()
+    //     .append("circle").attr("r", 6)
+    //     .attr("cx", xcoord)
+    //     .attr("cy", function(d, i) {
+    //         if (i == 0) {
+    //             return xcoord;
+    //         }
+    //         return xcoord + i * 25;
+    //     })
+    //     .attr("fill", function(legend) { return getColor(legend); });
+    // legendSVG
+    //     .select("g")
+    //     .selectAll("text")
+    //     .data(legendEntries).enter()
+    //     .append("text")
+    //     .attr("x", xcoord * 2)
+    //     .attr("y", function(d, i) {
+    //         if (i == 0) {
+    //             return xcoord + 5;
+    //         }
+    //         return xcoord + 5 + i * 25;
+    //     })
+    //     .text(function(d) { return d; });
 
 
 } //initiateMap
@@ -306,3 +281,33 @@ function getColor(type) {
     }
     return color;
 }
+
+function choroplethMap(mapData = prioritiesData) {
+    const emergencyFilter = $('#emergency').val();
+    if (emergencyFilter != "all") {
+        mapData = mapData.filter(function(d) {
+            interventions = splitMultiValues(d["Intervention type"]);
+            return interventions.includes(emergencyFilter);
+        })
+    }
+    // console.log(data);
+    var countriesArr = [];
+    mapData.forEach(element => {
+        countriesArr.includes(element.ISO3) ? null : countriesArr.push(element.ISO3);
+    });
+
+    mapsvg.selectAll('path').each(function(element, index) {
+        d3.select(this).attr('class', function(d) {
+            var className = (countriesArr.includes(d.properties.ISO_A3)) ? 'priority' : 'inactive';
+            return className;
+        });
+        d3.select(this).transition().duration(500).attr('fill', function(d) {
+            return countriesArr.includes(d.properties.ISO_A3) ? mapFillColor : mapInactive;
+        });
+    });
+
+} //choroplethMap
+
+$('#emergency').on("change", function(d) {
+    choroplethMap();
+})
