@@ -102,6 +102,7 @@ function initiateMap() {
     var mapCenter = (isMobile) ? [12, 25] : [25, 25];
     projection = d3.geoMercator()
         .center(mapCenter)
+        // @Vincent joue sur le mapScale pour voir la taille de la carte, 200 n'est pas mal
         .scale(mapScale)
         .translate([width / 2.1, height / 1.9]);
 

@@ -72,11 +72,10 @@ body {
 }
 
 .floating-container {
-  position:absolute;
-  z-index: 10;
-  top:30px;
-  right:20px;
-
+    position: absolute;
+    z-index: 10;
+    top: 30px;
+    right: 20px;
 }
 
 .emergency {
@@ -173,12 +172,12 @@ body {
 }
 
 
-/* svg g path {
-    cursor: pointer;
+/* svg g path .inactive {
+    cursor: default;
 } */
 
-svg g path path.inactive {
-    cursor: default;
+svg g .priority {
+    cursor: pointer;
 }
 
 circle {
@@ -269,17 +268,17 @@ circle {
 }
 
 .select label {
-  background: #798BA5;
-  color: #FFF;
-  padding: 5px;
-  border: none;
-}
-.select select {
-  background: #798BA5;
-  color: #FFF;
+    background: #798BA5;
+    color: #FFF;
+    padding: 5px;
     border: none;
 }
 
+.select select {
+    background: #798BA5;
+    color: #FFF;
+    border: none;
+}
 
 @media only screen and (max-width: 767px) {
     .row {
