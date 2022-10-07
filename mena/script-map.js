@@ -1,4 +1,4 @@
-const geodataUrl = 'esar.json';
+const geodataUrl = 'mena.json';
 
 const dataURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSD2zLHZWMu29R-iWNMb_dAVAmPAIttvOl-31PP6TyrtKKCi5-LfGNbru8M15_s-holGrQF8jXTNDZG/pub?gid=0&single=true&output=csv";
 const settingsURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSD2zLHZWMu29R-iWNMb_dAVAmPAIttvOl-31PP6TyrtKKCi5-LfGNbru8M15_s-holGrQF8jXTNDZG/pub?gid=1974885344&single=true&output=csv";
@@ -16,7 +16,7 @@ $(document).ready(function() {
             d3.csv(dataURL),
             d3.csv(settingsURL),
         ]).then(function(data) {
-            geomData = topojson.feature(data[0], data[0].objects.esar_bbox);
+            geomData = topojson.feature(data[0], data[0].objects.mena_bbox);
             prioritiesData = data[1];
             prioritiesData.forEach(element => {
                 element.x = "0";
@@ -97,10 +97,11 @@ function initiateMap() {
     width = document.getElementById("mainOfIframe").offsetWidth; //viewportWidth;
     height = (isMobile) ? 400 : 500;
     var mapScale = (isMobile) ? width / 1.5 : width / 1;
-    var mapCenter = (isMobile) ? [25, -10] : [60, 0];
+    var mapCenter = (isMobile) ? [25, -10] : [25, 25];
+    console.log(mapScale)
     projection = d3.geoMercator()
         .center(mapCenter)
-        .scale(mapScale) //mapScale
+        .scale(640) //mapScale
         .translate([width / 2.1, height / 1.9]);
 
     path = d3.geoPath().projection(projection);
@@ -120,7 +121,7 @@ function initiateMap() {
         .attr("width", "100%")
         .attr("height", "100%")
         .attr("fill", "none");
-        //.attr("fill", "#FFF"); //#1b365e //294780 //1b365e //cdd4d9
+    //.attr("fill", "#FFF"); //#1b365e //294780 //1b365e //cdd4d9
     // .attr("fill-opacity", "0.5");
 
     d3.select('#title').style('right', width / 2 + 'px');
